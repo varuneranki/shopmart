@@ -1,6 +1,19 @@
 <template>
   <nav>
-  <v-navigation-drawer v-model="drawer" absolute temporary></v-navigation-drawer>
+  <v-navigation-drawer v-model="drawer" absolute temporary class="warning">
+    <v-list>
+      <v-list-item v-for="item in menuItems" :key="item.title" router :to="item.link">
+           <v-list-item-icon>
+             <v-icon>
+               {{item.icon}}
+             </v-icon>
+           </v-list-item-icon>
+           <v-list-item-content>
+             {{item.title}}
+           </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 
     <v-toolbar>
       <v-app-bar-nav-icon @click="drawer = !drawer" class="d-flex d-sm-none"></v-app-bar-nav-icon>
@@ -9,7 +22,7 @@
           </v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <v-toolbar-items>
+      <v-toolbar-items class="d-none d-sm-flex">
         <v-btn text v-for="item in menuItems" :key="item.title" router :to="item.link">
           <v-icon left>{{item.icon}}</v-icon>
           {{item.title}}
@@ -21,11 +34,11 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      drawer: true
+      drawer: false
     }
-},
+  },
   computed: {
     menuItems () {
       let menuItems = [
