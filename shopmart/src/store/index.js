@@ -68,7 +68,41 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
+    },
+    logIn ({ commit }, payload) {
+      commit('setLoading', true)
+      commit('clearError')
+      firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
+            commit('setLoading', false)
+
+            const newUser = {
+              id: user.user.uid
+            }
+            commit('setUser', newUser)
+          }
+        )
+        .catch(error => {
+          commit('setLoading', true)
+          commit('setError', error)
+          console.log(error)
+        })
+    },
+    googleLogin ({ commit }) {
+      const provider = new firebase.auth.GoogleAuthProvider()
+      firebase.auth().signInWithPopup(provider).then(
+        (result) => {
+          this.$router.push('/')
+        }
+      ).catch((error) => {
+        console.log(error)
+      })
+    },
+    clearError ({ commit }) {
+      commit('clearError')
     }
+
   },
   getters: {
     loadedDeals (state) {

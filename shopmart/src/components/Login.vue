@@ -66,3 +66,61 @@
     </v-row>
   </v-container>
 </template>
+
+
+<script>
+export default {
+
+  data(){
+    return {
+      email: "",
+      password: ""
+    }
+  }, 
+  computed: {
+     user(){
+       return this.$store.getters.getUser;
+     },
+     error(){
+       return this.$store.getters.error;
+     },
+     loading(){
+       return this.$store.getters.loading;
+     }
+  },
+  watch: {
+    user: function(value){
+      if(value !== null && value !== undefined){
+        this.$router.push('/');
+      }
+    }
+  },
+  methods: {
+
+    onLogin(){
+      this.$store.dispatch("logIn", {
+        email: this.email,
+        password: this.password
+      })
+    },
+    onDismiss() {
+      this.$store.dispatch("clearError");
+    },
+    googleLogin(){
+      this.$store.dispatch('googleLogin')
+    }
+  }
+  
+}
+</script>
+
+
+<style scoped>
+.social_button{
+  width: 75px;
+  background: white;
+  padding: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  
+}
+</style>
